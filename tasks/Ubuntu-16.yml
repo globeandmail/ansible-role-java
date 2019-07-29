@@ -1,16 +1,5 @@
 ---
-- name: Debian | Add webupd8team ppa repository
-  apt_repository:
-   repo='ppa:webupd8team/java'
-   update_cache=yes
-
-- name: Debian | Accept oracle license
-  debconf:
-   name='{{ java.version }}'
-   question='shared/accepted-oracle-license-v1-1'
-   value='true'
-   vtype='select'
-
-- name: Debian | Install Java
-  apt:
-   name={{ java.version }}
+- name: Install Java
+  apt: name={{item}} state=latest
+  with_items:
+   - openjdk-8-jdk
