@@ -1,0 +1,17 @@
+---
+
+- name: Make sure java-common is installed
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  with_items:
+    - java-common
+
+- name: Download Amazon Corretto OpenJDK8 .deb file
+  apt:
+    deb: "{{ java_download_src }}"
+    
+- name: Make sure Amazon Corretto Java is selected
+  alternatives:
+    name: java
+    path: "{{ java_path }}"
