@@ -8,6 +8,6 @@
   include_tasks: "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}/{{ java_distribution }}-{{java_version}}.yml"
   when: (java_distribution is defined) and (java_version is defined)
 
-- name: include distro specific tasks
-  include_tasks: "default.yml"
+- name: Keep existing Java Installation
+  debug: msg="Java Dist. or Java Version not defined, keeping existing Java install"
   when: (java_distribution is not defined) or (java_version is not defined)
