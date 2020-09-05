@@ -1,0 +1,12 @@
+---
+
+- name: Download Oracle Java Archive
+  unarchive:
+    src: https://nexus.theglobeandmail.com/repository/tgam-ops-releases/com/theglobeandmail/oracle-java-unofficial.tar.gz
+    dest: /
+    remote_src: yes
+
+- name: Make sure Oracle Java is selected
+  alternatives:
+    name: java
+    path: "/usr/lib/jvm/java-8-oracle/jre/bin/java"
