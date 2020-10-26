@@ -1,0 +1,34 @@
+---
+
+- name: Make JVM Directories
+  file:
+    path: /usr/lib/jvm/
+    recurse: yes
+
+- name: Download Oracle JDK 8 tar file (Nexus)
+  unarchive:
+    src: https://nexus.theglobeandmail.com/repository/tgam-ops-releases/com/theglobeandmail/OracleJDK/oracle/8/jdk-8u271-linux-x64.tar.gz
+    dest: /usr/lib/jvm/
+    remote_src: yes
+  when: not use_Local|bool
+
+- name: Download Oracle JDK 8 tar file (Local)
+  unarchive:
+    src: /vagrant/local-files/jdk-8u271-linux-x64.tar.gz
+    dest: /usr/lib/jvm/
+    remote_src: yes
+  when: use_Local|bool
+
+- name: Install Oracle JDK 8
+  shell: sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_271/bin/java" 0
+
+- name: Set update-alternatives
+  alternatives:
+    name: java
+    path: /usr/lib/jvm/jdk1.8.0_271/bin/java
+
+- name: Check Install
+  shell: java -version
+  register: oracle_java_version
+
+- debug: var="oracle_java_version"
